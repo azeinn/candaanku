@@ -73,6 +73,7 @@ public class MainActivity1 extends AppCompatActivity {
         adapter.addFrag(new OneFragment(), "ONE");
         adapter.addFrag(new TwoFragment(), "TWO");
         adapter.addFrag(new ThreeFragment(), "THREE");
+        adapter.addFrag(new FourFragment(), "FOUR");
         viewPager.setAdapter(adapter);
     }
 
@@ -88,16 +89,7 @@ public class MainActivity1 extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position==3){
-                if((AccessToken.getCurrentAccessToken()!=null)||(StaticObject.getboolean("isGoogleLogin",MainActivity1.this))){
-                    return mFragmentList.get(position+1);
-                }
-                else {
-                    intializeGoogleComponent();
-                    return mFragmentList.get(position);
-                }
-            else
-                return mFragmentList.get(position);
+            return mFragmentList.get(position);
         }
 
         @Override
@@ -116,12 +108,5 @@ public class MainActivity1 extends AppCompatActivity {
         }
     }
 
-    /*---------------------------------------------Google--------------------------------------------*/
-    public void intializeGoogleComponent() {
-        googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
-        if(googleApiClient.hasConnectedApi(Plus.API)){
-        }
-
-    }
 
 }
