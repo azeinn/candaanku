@@ -23,15 +23,23 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.facebook.AccessToken;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
+import com.google.firebase.codelab.friendlychat.database.AsyncDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity1 extends AppCompatActivity {
+
+    public static final String TAG_CERITA = "Candaanku";
+    public static final String TAG_TEKATEKI = "Tekatekiku";
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -41,11 +49,16 @@ public class MainActivity1 extends AppCompatActivity {
     //        R.drawable.ic_tab_call,
     //        R.drawable.ic_tab_contacts
     //};
+    private static AsyncDBHelper asyncDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main1);
+
+        Ads.showBanner(this);
+
+        asyncDBHelper = new AsyncDBHelper(this);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,10 +72,14 @@ public class MainActivity1 extends AppCompatActivity {
         setupTabIcons();
     }
 
+    public static AsyncDBHelper getAsyncDBHelper() {
+        return asyncDBHelper;
+    }
+
     private void setupTabIcons() {
-        tabLayout.getTabAt(0).setText("Aktivitas");
-        tabLayout.getTabAt(1).setText("Office");
-        tabLayout.getTabAt(2).setText("User");
+        tabLayout.getTabAt(0).setText("Cerita");
+        tabLayout.getTabAt(1).setText("Teka-teki");
+        tabLayout.getTabAt(2).setText("Online");
         //tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         //tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         //tabLayout.getTabAt(2).setIcon(tabIcons[2]);
@@ -70,10 +87,10 @@ public class MainActivity1 extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new OneFragment(), "ONE");
-        adapter.addFrag(new TwoFragment(), "TWO");
-        adapter.addFrag(new ThreeFragment(), "THREE");
-        adapter.addFrag(new FourFragment(), "FOUR");
+        adapter.addFrag(new OneFragment(), "Cerita");
+        adapter.addFrag(new TwoFragment(), "Teka-teki");
+        adapter.addFrag(new ThreeFragment(), "Online");
+        //adapter.addFrag(new FourFragment(), "FOUR");
         viewPager.setAdapter(adapter);
     }
 
@@ -108,5 +125,42 @@ public class MainActivity1 extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_search:
+                return true;
+
+            case R.id.action_share:
+                return true;
+
+            case R.id.action_refresh:
+                return true;
+
+            case R.id.action_sign_out:
+                //mFirebaseAuth.signOut();
+                //Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                //mFirebaseUser = null;
+                //mUsername = null;
+                //mPhotoUrl = null;
+                //startActivity(new Intent(this, SignInActivity.class));
+                //finish();
+                return true;
+
+            case R.id.action_check_updates:
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }
