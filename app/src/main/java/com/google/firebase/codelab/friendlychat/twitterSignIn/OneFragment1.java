@@ -37,7 +37,7 @@ public class OneFragment1 extends Fragment{
     // For the options menu
     private static final int CHANGE_CATEGORY_ID = 0;
 
-    private Handler handler = new Handler();
+    //private Handler handler = new Handler();
     private AsyncDBHelper dbHelper;
 
     private ArrayList<CharSequence> allCategories;
@@ -86,13 +86,6 @@ public class OneFragment1 extends Fragment{
         }
 
         // Shows the answer to the current joke
-        Button showAnswerButton = (Button) view.findViewById(R.id.buttonShowAnswer);
-        showAnswerButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                stopTimer();
-                showAnswer();
-            }
-        });
 
         // Shows the next joke and hides the answer
         Button nextJokeButton = (Button) view.findViewById(R.id.buttonNextJoke);
@@ -303,7 +296,6 @@ public class OneFragment1 extends Fragment{
      * Shows the next joke and hides the answer.
      */
     private void showNextJoke() {
-        stopTimer();
 
         if (!jokesIterator.hasNext())
             shuffleJokes();
@@ -313,8 +305,8 @@ public class OneFragment1 extends Fragment{
         jokeView.setText(currentJoke[INDEX_OF_QUESTION]);
         answerView.setVisibility(TextView.INVISIBLE);
         answerView.setText(currentJoke[INDEX_OF_ANSWER]);
-
-        handler.postDelayed(showAnswerRunnable, 3500);
+        showAnswer();
+        //handler.postDelayed(showAnswerRunnable, 3500);
     }
 
     /*
@@ -348,13 +340,13 @@ public class OneFragment1 extends Fragment{
     /*
      * Stops the "Show Answer" timer.
      */
-    private void stopTimer() {
-        handler.removeCallbacks(showAnswerRunnable);
-    }
+   // private void stopTimer() {
+   //     handler.removeCallbacks(showAnswerRunnable);
+   // }
 
-    Runnable showAnswerRunnable = new Runnable() {
-        public void run() {
-            showAnswer();
-        }
-    };
+   // Runnable showAnswerRunnable = new Runnable() {
+   //     public void run() {
+   //         showAnswer();
+   //     }
+   //};
 }

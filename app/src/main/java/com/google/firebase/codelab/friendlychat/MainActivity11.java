@@ -21,37 +21,18 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.facebook.AccessToken;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.codelab.friendlychat.database.AsyncDBHelper;
 import com.google.firebase.codelab.friendlychat.facebookSignIn.FacebookHelper;
 import com.google.firebase.codelab.friendlychat.facebookSignIn.FacebookResponse;
@@ -70,20 +51,12 @@ import com.google.firebase.codelab.friendlychat.linkedInSiginIn.LinkedInUser;
 import com.google.firebase.codelab.friendlychat.twitterSignIn.TwitterHelper;
 import com.google.firebase.codelab.friendlychat.twitterSignIn.TwitterResponse;
 import com.google.firebase.codelab.friendlychat.twitterSignIn.TwitterUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-public class MainActivity1 extends AppCompatActivity implements GoogleResponseListener, FacebookResponse, TwitterResponse,
-        LinkedInResponse, GoogleAuthResponse, InstagramResponse/*, TabLayout.OnTabSelectedListener */{
+public class MainActivity11 extends AppCompatActivity implements GoogleResponseListener, FacebookResponse, TwitterResponse,
+        LinkedInResponse, GoogleAuthResponse, InstagramResponse {
 
     private static final String TAG = "MainActivity1";
     public static final String TAG_CERITA = "Candaanku";
@@ -94,7 +67,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     private ViewPager viewPager;
 
     public static int signedAs = 0; // 0 = sign out, 1 = origin, 2 = google, 3 = google +, 4 = facebook, 5 = twitter,
-    public static boolean justSigned = false;
+        // 6 = linkedin, 7 = instagram
     public FacebookHelper mFbHelper;
     public GooglePlusSignInHelper mGHelper;
     public GoogleSignInHelper mGAuthHelper;
@@ -133,8 +106,6 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
         mGHelper = new GooglePlusSignInHelper(this, this);
 
         //google auth initialization
@@ -160,21 +131,21 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 getResources().getString(R.string.instagram_client_secret),
                 getResources().getString(R.string.instagram_callback_url), this, this);
 
-       // replaceViewPager(4);
+        replaceViewPager(4);
 
 
-        
+
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             // User is signed in
             if(mAuth.getCurrentUser().getDisplayName()!=null){
                 Log.i("mainactivity1", "user logged in");
-                //replaceViewPager(4);
+                replaceViewPager(4);
             }
 
         }
         else {
-            //replaceViewPager(3);
+            replaceViewPager(3);
             Log.d("mainactivity1", "user not logged in");
         }
 
@@ -185,11 +156,11 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 if (user != null) {
                     // User is signed in
                     if(user.getDisplayName()!=null){
-                        //replaceViewPager(4);
+                        replaceViewPager(4);
                     }
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
-                    //replaceViewPager(3);
+                    replaceViewPager(3);
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
@@ -199,36 +170,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 // [END_EXCLUDE]
             }
         };
-        //tabLayout.setOnTabSelectedListener(this);
     }
-//
-//    @Override
-//    public void onTabSelected(TabLayout.Tab tab) {
-//        Log.d("mainactivity1", "tab.getPosition()="+tab.getPosition());
-//        int pos = tab.getPosition();
-//        /*if (pos==2) {
-//            if (justSigned && signedAs>0) {
-//                replaceViewPager(4);
-//                //mFragmentList.add(new FourFragment());
-//
-//            } else {
-//                replaceViewPager(3);
-//                //mFragmentList.add(new ThreeFragment());
-//            }
-//
-//        }*/
-//        viewPager.setCurrentItem(tab.getPosition());
-//    }
-//    @Override
-//    public void onTabUnselected(TabLayout.Tab tab) {
-//
-//    }
-//
-//    @Override
-//    public void onTabReselected(TabLayout.Tab tab) {
-//
-//    }
-//
 
     public static AsyncDBHelper getAsyncDBHelper() {
         return asyncDBHelper;
@@ -260,13 +202,11 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
             else if (frag == 3)
                 adapter.replaceFrag(new ThreeFragment(), 2);
             adapter.notifyDataSetChanged();
-            Log.d("mainactivity1", "tadapter="+adapter);
-
         }
     }
     // GoogleApiClient googleApiClient;
 
-    class ViewPagerAdapter extends FragmentStatePagerAdapter {
+    class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -287,27 +227,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 }
             }
             //else*/
-           /* Log.d("mainactivity1", "position = "+ position);
-            switch (position) {
-                case 0:
-                    return new OneFragment();
-                case 1:
-                    return new TwoFragment();
-                case 2:
-                    Log.d("mainactivity1", "signedAs = "+ signedAs);
-                    if (signedAs != 0) {
-                        //if (mAuth.getCurrentUser() != null) {
-                            return new FourFragment();
-                            //mFragmentList.add(new FourFragment());
 
-                        } else {
-                            return new ThreeFragment();
-                            //mFragmentList.add(new ThreeFragment());
-                        }
-
-                default:
-                    return null;
-            }*/
             return mFragmentList.get(position);
         }
 
@@ -339,7 +259,6 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
             return mFragmentTitleList.get(position);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -410,7 +329,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     @Override
     public void onFbSignInSuccess() {
         signedAs = 4;
-        //replaceViewPager(4);
+        replaceViewPager(4);
         Toast.makeText(this, "Facebook sign in success", Toast.LENGTH_SHORT).show();
     }
 
@@ -438,7 +357,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     @Override
     public void onGSignInSuccess(Person person) {
         signedAs = 2;
-        //replaceViewPager(4);
+        replaceViewPager(4);
         Toast.makeText(this, "Google sign in success", Toast.LENGTH_SHORT).show();
         Log.d("Person display name: ", person.getDisplayName() + "");
         Log.d("Person birth date: ", person.getBirthday() + "");
@@ -455,7 +374,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     @Override
     public void onTwitterSignIn(@NonNull String userId, @NonNull String userName) {
         signedAs = 5;
-        //replaceViewPager(4);
+        replaceViewPager(4);
         Toast.makeText(this, " User id: " + userId + "\n user name" + userName, Toast.LENGTH_SHORT).show();
     }
 
@@ -472,7 +391,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     @Override
     public void onLinkedInSignInSuccess(String accessToken) {
         signedAs = 6;
-        //replaceViewPager(4);
+        replaceViewPager(4);
         Toast.makeText(this, "Linked in signin successful.\n Getting user profile...", Toast.LENGTH_SHORT).show();
     }
 
@@ -483,36 +402,9 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
 
     @Override
     public void onGoogleAuthSignIn(GoogleAuthUser user) {
-         Toast.makeText(this, "Google user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
-        //GoogleSignInAccount account = user.getSignInAccount();
-        firebaseAuthWithGoogle(user);
-    }
-    private void firebaseAuthWithGoogle(GoogleAuthUser user) {
-        Log.d(TAG, "firebaseAuthWithGooogle:" + user.idToken);
-        AuthCredential credential = GoogleAuthProvider.getCredential(user.idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(MainActivity1.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MainActivity1.this, "Authentication Success. Please Wait",
-                                    Toast.LENGTH_SHORT).show();
-                            justSigned = true;
-                            signedAs = 3;
-                            replaceViewPager(4);
-                        }
-                        //hideProgressDialog();
-                    }
-                });
+        signedAs = 3;
+        replaceViewPager(4);
+        Toast.makeText(this, "Google user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -522,14 +414,13 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
 
     @Override
     public void onGoogleAuthSignOut(boolean isSuccess) {
-        justSigned = false;
         Toast.makeText(this, isSuccess ? "Sign out success" : "Sign out failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onInstagramSignInSuccess(InstagramUser user) {
         signedAs = 7;
-        //replaceViewPager(4);
+        replaceViewPager(4);
         Toast.makeText(this, "Instagram user data: full name name=" + user.getFull_name() + " user name=" + user.getUsername(), Toast.LENGTH_SHORT).show();
     }
 

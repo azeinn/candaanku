@@ -15,6 +15,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.codelab.friendlychat.R;
 
 /**
  * Created by multidots on 6/21/2016.
@@ -49,6 +50,7 @@ public class GoogleSignInHelper implements GoogleApiClient.OnConnectionFailedLis
 
     private GoogleSignInOptions buildSignInOptions(@Nullable String serverClientId) {
         GoogleSignInOptions.Builder gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(mContext.getString(R.string.default_web_client_id))
                 .requestEmail()
                 .requestProfile()
                 .requestId();
@@ -81,6 +83,7 @@ public class GoogleSignInHelper implements GoogleApiClient.OnConnectionFailedLis
                 // Signed in successfully, show authenticated UI.
                 GoogleSignInAccount acct = result.getSignInAccount();
                 mListener.onGoogleAuthSignIn(parseToGoogleUser(acct));
+                //mListener.onGoogleAuthSignIn(parseToGoogleUser(acct));
             } else {
                 mListener.onGoogleAuthSignInFailed();
             }

@@ -1,21 +1,33 @@
+/**
+ * Copyright Google Inc. All Rights Reserved.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.google.firebase.codelab.friendlychat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,6 +36,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,70 +53,66 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/*
+* Created By AndroidBash on 30/07/2016
+*/
 
-public class FourFragment extends Fragment {
+public class MainActivity2 extends AppCompatActivity implements
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "AndroidBash";
-    private static final String JOKES = "jokes";
+    public static final String JOKES = "jokes";
 
+    private String mUsername;
+    private String mPhotoUrl;
     private EditText mJokeEditText;
     private Button mPostButton;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
+    private FirebaseRecyclerAdapter<Joke, MyJokeViewHolder> mFirebaseAdapter;
     private ProgressBar mProgressBar;
-
+    private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private FirebaseRecyclerAdapter<Joke, MainActivity2.MyJokeViewHolder> mFirebaseAdapter;
-    private DatabaseReference mFirebaseDatabaseReference;
-    //private FirebaseAuth mFirebaseAuth;
-    //private FirebaseUser mFirebaseUser;
 
-    //private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
 
-    ViewPager viewPager;
-    public FourFragment() {
-        Log.d("mainactivity1", "FourFragment instantiated");
-
-        setHasOptionsMenu(true);    // Required empty public constructor
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_main2);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_four, container, false);
         // Initialize Firebase Auth
-        setHasOptionsMenu(true);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
-
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-        if (mFirebaseUser != null) {
-            //mUsername = mFirebaseUser.getDisplayName();
-            //mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+        if (mFirebaseUser == null) {
+            // User has  not signed in, launch the Sign In activity
+            startActivity(new Intent(this, SignInActivity.class));
+            finish();
+            return;
+        } else {
+            mUsername = mFirebaseUser.getDisplayName();
+            if (mFirebaseUser.getPhotoUrl() != null)
+                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
         }
-        //The main entry point for Google Play services integration. Builder to configure a GoogleApiClient is required.
-      //  mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-      //          .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-      //          .addApi(Auth.GOOGLE_SIGN_IN_API)
-      //          .build();
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.mRecyclerView);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        //The main entry point for Google Play services integration. Builder to configure a GoogleApiClient is required.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mRecyclerView = (RecyclerView) findViewById(R.id.mRecyclerView);
+        mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         //Gets a Reference to your Firebase Database.
         // You should have included a google-services.json (downloaded from Firebase console) under "app" folder of your project.
-         //Adapter for Firebase RecyclerView : FirebaseRecyclerAdapter
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        //Adapter for Firebase RecyclerView : FirebaseRecyclerAdapter
         /**
          * @param modelClass Firebase will marshall the data at a location into an instance of a class that you provide
          * @param modelLayout This is the layout used to represent a single item in the list. You will be responsible for populating an
@@ -110,14 +121,14 @@ public class FourFragment extends Fragment {
          * @param ref        The Firebase location to watch for data changes. Can also be a slice of a location, using some
          *                   combination of <code>limit()</code>, <code>startAt()</code>, and <code>endAt()
          */
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Joke, MainActivity2.MyJokeViewHolder>(
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Joke, MyJokeViewHolder>(
                 Joke.class,
                 R.layout.item_joke_layout,
-                MainActivity2.MyJokeViewHolder.class,
+                MyJokeViewHolder.class,
                 mFirebaseDatabaseReference.child(JOKES)) {
 
             @Override
-            protected void populateViewHolder(MainActivity2.MyJokeViewHolder viewHolder, final Joke joke, int position) {
+            protected void populateViewHolder(MyJokeViewHolder viewHolder, final Joke joke, int position) {
                 /**
                  * Each time the data at the given Firebase location changes, this method will be called for each item that needs
                  * to be displayed. The first two arguments correspond to the mLayout and mModelClass given to the constructor of
@@ -143,11 +154,11 @@ public class FourFragment extends Fragment {
                 }
                 //If the User has no google profile picture we set a default image.
                 if (joke.photoUrl == null) {
-                    viewHolder.circleImageView.setImageDrawable(ContextCompat.getDrawable(getActivity(),
+                    viewHolder.circleImageView.setImageDrawable(ContextCompat.getDrawable(MainActivity2.this,
                             R.drawable.ic_face_black_24dp));
                 } else {
                     //Loads the image in to circleImageView from the given URL
-                    Glide.with(getActivity())
+                    Glide.with(MainActivity2.this)
                             .load(joke.photoUrl)
                             .into(viewHolder.circleImageView);
                 }
@@ -208,9 +219,6 @@ public class FourFragment extends Fragment {
             }
         };
 
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.setAdapter(mFirebaseAdapter);
-
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -226,7 +234,11 @@ public class FourFragment extends Fragment {
             }
         });
 
-        mJokeEditText = (EditText) view.findViewById(R.id.post_joke_et);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setAdapter(mFirebaseAdapter);
+
+
+        mJokeEditText = (EditText) findViewById(R.id.post_joke_et);
         mJokeEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int j, int k) {
@@ -246,7 +258,7 @@ public class FourFragment extends Fragment {
             }
         });
 
-        mPostButton = (Button) view.findViewById(R.id.button);
+        mPostButton = (Button) findViewById(R.id.button);
         mPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,8 +267,8 @@ public class FourFragment extends Fragment {
                 //Key under which a joke will be stored. Firebase assigns a unique id for every new joke pushed.
                 String key = mFirebaseDatabaseReference.child(JOKES).push().getKey();
                 //Creates a new Joke object
-                Joke joke = new Joke(mFirebaseUser.getUid(), mJokeEditText.getText().toString(), ((MainActivity1)getActivity()).mUsername,
-                        ((MainActivity1)getActivity()).mPhotoUrl, key, likesGivenBy);
+                Joke joke = new Joke(mFirebaseUser.getUid(), mJokeEditText.getText().toString(), mUsername,
+                        mPhotoUrl, key, likesGivenBy);
                 //New Map will be created from a Joke object.
                 Map<String, Object> values = joke.toMap();
                 //Creates a new Map and puts the Map (joke object) which is to be stored in Firebase Database.
@@ -270,68 +282,27 @@ public class FourFragment extends Fragment {
             }
         });
 
-        return view;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //super.onCreateOptionsMenu(menu, inflater);
-        //menu.add(Menu.NONE, CHANGE_CATEGORY_ID, Menu.NONE,
-        //        getString(R.string.showjoke_changecat));
-        //getActivity().getMenuInflater().inflate(R.menu.activity_splash, menu);
-        // You can look up you menu item here and store it in a global variable by
-        // 'mMenuItem = menu.findItem(R.id.my_menu_item);'
-        inflater.inflate(R.menu.action_menu_online, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    public void onPause() {
+        super.onPause();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sign_out:
-                signOut();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    private void signOut() {
-        switch (MainActivity1.signedAs){
-            case 1:
-                mFirebaseAuth.signOut();
-                break;
-            case 2:
-                ((MainActivity1)getActivity()).mGAuthHelper.performSignOut();
-                break;
-            case 3:
-                ((MainActivity1)getActivity()).mGHelper.signOut();
-                break;
-            case 4:
-                ((MainActivity1)getActivity()).mFbHelper.performSignOut();
-                break;
-            case 5:
-                //mFirebaseAuth.signOut();
-                break;
-            case 6:
-                ((MainActivity1)getActivity()).mLinkedInHelper.logout();
-                break;
-            case 7:
-                //mFirebaseAuth.signOut();
-                break;
-            default: break;
-
-        }
-        MainActivity1.signedAs = 0;
-        //((MainActivity1)getActivity()).replaceViewPager(3);
-        //updateUI(null);
+    public void onResume() {
+        super.onResume();
     }
 
-/*
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_menu, menu);
         return true;
     }
 
@@ -339,27 +310,45 @@ public class FourFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.sign_out_menu:
+            case R.id.action_search:
+                return true;
+
+            case R.id.action_share:
+                return true;
+
+            case R.id.action_refresh:
+                return true;
+
+            case R.id.action_sign_out:
                 mFirebaseAuth.signOut();
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 mFirebaseUser = null;
                 mUsername = null;
                 mPhotoUrl = null;
-                viewPager.setCurrentItem(3);
                 //startActivity(new Intent(this, SignInActivity.class));
                 //finish();
+                return true;
+
+            case R.id.action_check_updates:
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-*/
+
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
 
     public static class MyJokeViewHolder extends RecyclerView.ViewHolder {
         public TextView jokeTextView;
