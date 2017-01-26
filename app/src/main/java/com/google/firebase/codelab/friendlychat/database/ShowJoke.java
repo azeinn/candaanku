@@ -107,12 +107,12 @@ public class ShowJoke extends Activity {
 		});
 
 		// onClickListener for the "Go Back" button
-		Button backButton = (Button) findViewById(R.id.showjoke_backButton);
+		/*Button backButton = (Button) findViewById(R.id.showjoke_backButton);
 		backButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				ShowJoke.this.finish();
 			}
-		});
+		});*/
 	}
 
 	/**

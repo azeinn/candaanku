@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package com.google.firebase.codelab.friendlychat;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -91,6 +92,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     public static final String TAG_CERITA = "Candaanku";
     public static final String TAG_TEKATEKI = "Tekatekiku";
 
+    private ProgressDialog mProgressDialog;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -120,7 +122,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main1);
 
-        Ads.showBanner(this);
+        Log.d("mainactivity1","sudah loaded");
 
         asyncDBHelper = new AsyncDBHelper(this);
 
@@ -162,36 +164,22 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 getResources().getString(R.string.instagram_client_secret),
                 getResources().getString(R.string.instagram_callback_url), this, this);
 
-       // replaceViewPager(4);
 
-
-        
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-            // User is signed in
-            if(mAuth.getCurrentUser().getDisplayName()!=null){
-                Log.i("mainactivity1", "user logged in");
-                //replaceViewPager(4);
-            }
-
-        }
-        else {
-            //replaceViewPager(3);
-            Log.d("mainactivity1", "user not logged in");
-        }
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                justSigned = false;
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
                     if(user.getDisplayName()!=null){
-                        //replaceViewPager(4);
+                        replaceViewPager(4);
                     }
+
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
-                    //replaceViewPager(3);
+                    replaceViewPager(3);
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
@@ -201,6 +189,9 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 // [END_EXCLUDE]
             }
         };
+
+        Ads.showBanner(this);
+
         //tabLayout.setOnTabSelectedListener(this);
     }
 //
@@ -278,38 +269,14 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
 
         @Override
         public Fragment getItem(int position) {
-          /*  if (position==2) {
-                if (mAuth.getCurrentUser() != null) {
-                    replaceFrag(new FourFragment(), 2);
-                    //mFragmentList.add(new FourFragment());
-
-                } else {
-                    replaceFrag(new ThreeFragment(), 2);
-                    //mFragmentList.add(new ThreeFragment());
-                }
+            if (position==0) {
+                showOption(R.id.action_sign_out);
+                hideOption(R.id.action_sign_in);
             }
-            //else*/
-           /* Log.d("mainactivity1", "position = "+ position);
-            switch (position) {
-                case 0:
-                    return new OneFragment();
-                case 1:
-                    return new TwoFragment();
-                case 2:
-                    Log.d("mainactivity1", "signedAs = "+ signedAs);
-                    if (signedAs != 0) {
-                        //if (mAuth.getCurrentUser() != null) {
-                            return new FourFragment();
-                            //mFragmentList.add(new FourFragment());
-
-                        } else {
-                            return new ThreeFragment();
-                            //mFragmentList.add(new ThreeFragment());
-                        }
-
-                default:
-                    return null;
-            }*/
+            else {
+                showOption(R.id.action_sign_in);
+                hideOption(R.id.action_sign_out);
+            }
             return mFragmentList.get(position);
         }
 
@@ -342,14 +309,43 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         }
     }
 
+    private Menu menu;
+    public void hideOption(int id)
+    {
+        MenuItem item = menu.findItem(id);
+        item.setVisible(false);
+    }
+
+    public void showOption(int id)
+    {
+        MenuItem item = menu.findItem(id);
+        item.setVisible(true);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_menu, menu);
+        this.menu = menu;
+        showOption(R.id.action_sign_in);
+        hideOption(R.id.action_sign_out);
         return true;
     }
+/*
+    @Override
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        MenuItem menuItemSign_out = menu.findItem(R.id.action_sign_out);
+        if (justSigned && signedAs>0) {
+            menuItemSign_out.setTitle("Signed Out");
+        }
+        else {
+            menuItemSign_out.setTitle("Signed Im");
 
+        }
+        justSigned = false;
+        return super.onPrepareOptionsMenu(menu);
+    }
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -496,7 +492,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
 
     @Override
     public void onGoogleAuthSignOut(boolean isSuccess) {
-        justSigned = false;
+        //justSigned = false;
         Toast.makeText(this, isSuccess ? "Sign out success" : "Sign out failed", Toast.LENGTH_SHORT).show();
     }
 
@@ -535,9 +531,9 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                         else {
                             Toast.makeText(MainActivity1.this, "Authentication Success. Please Wait",
                                     Toast.LENGTH_SHORT).show();
-                            justSigned = true;
+                            //justSigned = true;
                             signedAs = 4;
-                            replaceViewPager(4);
+                            //replaceViewPager(4);
 
                         }
 
@@ -565,28 +561,15 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                         } else {
                             Toast.makeText(MainActivity1.this, "Authentication Success. Please Wait",
                                     Toast.LENGTH_SHORT).show();
-                            justSigned = true;
+                            //justSigned = true;
                             signedAs = 3;
-                            replaceViewPager(4);
+                            //replaceViewPager(4);
                         }
                         //hideProgressDialog();
                     }
                 });
     }
 
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        MenuItem register = menu.findItem(R.id.action_sign_out);
-        if(signedAs==0)
-        {
-            register.setVisible(false);
-        }
-        else
-        {
-            register.setVisible(true);
-        }
-        return true;
-    }
 
     @Override
     public void onStart() {
@@ -601,4 +584,21 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loading..");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
 }

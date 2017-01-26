@@ -106,12 +106,12 @@ public class OneFragment1 extends Fragment{
         });
 
         // onClickListener for the "Go Back" button
-        Button backButton = (Button) view.findViewById(R.id.showjoke_backButton);
+       /* Button backButton = (Button) view.findViewById(R.id.showjoke_backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
-        });
+        });*/
 
         return view;
     }

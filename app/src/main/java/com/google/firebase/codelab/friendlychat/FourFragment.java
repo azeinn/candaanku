@@ -64,7 +64,7 @@ public class FourFragment extends Fragment {
     public FourFragment() {
         Log.d("mainactivity1", "FourFragment instantiated");
 
-        setHasOptionsMenu(true);    // Required empty public constructor
+        //setHasOptionsMenu(true);    // Required empty public constructor
     }
 
     @Override
@@ -78,7 +78,7 @@ public class FourFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_four, container, false);
         // Initialize Firebase Auth
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
         viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -272,7 +272,7 @@ public class FourFragment extends Fragment {
 
         return view;
     }
-
+/*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //super.onCreateOptionsMenu(menu, inflater);
@@ -296,6 +296,7 @@ public class FourFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+    */
     private void signOut() {
         switch (MainActivity1.signedAs){
             case 1:

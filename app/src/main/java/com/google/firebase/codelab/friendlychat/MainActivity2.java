@@ -15,6 +15,7 @@
  */
 package com.google.firebase.codelab.friendlychat;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -366,4 +367,6 @@ public class MainActivity2 extends AppCompatActivity implements
             likeCount = (TextView) itemView.findViewById(R.id.like_count);
         }
     }
+
+
 }

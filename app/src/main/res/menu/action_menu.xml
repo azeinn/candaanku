@@ -23,7 +23,10 @@
                 app:showAsAction="ifRoom"
                 android:title="Refresh"/>
 
-            <!-- Help -->
+            <item
+                android:id="@+id/action_sign_in"
+                app:showAsAction="never"
+                android:title="Sign In"/>
             <item
                 android:id="@+id/action_sign_out"
                 app:showAsAction="never"

@@ -58,16 +58,5 @@
         android:textColor="@color/buttonText"
         android:width="@dimen/main_buttonWidth" />
 
-    <Button
-        android:id="@+id/showjoke_backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_small"
-        android:background="@color/buttonBackground"
-        android:height="@dimen/main_buttonHeight"
-        android:text="@string/goback"
-        android:textColor="@color/buttonText"
-        android:width="@dimen/main_buttonWidth" >
-    </Button>
 
 </LinearLayout>
