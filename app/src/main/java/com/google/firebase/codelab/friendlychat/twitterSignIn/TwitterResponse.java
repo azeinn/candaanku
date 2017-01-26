@@ -2,6 +2,8 @@ package com.google.firebase.codelab.friendlychat.twitterSignIn;
 
 import android.support.annotation.NonNull;
 
+import com.twitter.sdk.android.core.TwitterSession;
+
 /**
  * Created by multidots on 6/17/2016.<p>
  * This is response listener for twitter profile calls.
@@ -18,7 +20,8 @@ public interface TwitterResponse {
      * @param userId   twitter user id.
      * @param userName twitter user name
      */
-    void onTwitterSignIn(@NonNull String userId, @NonNull String userName);
+    //void onTwitterSignIn(@NonNull String userId, @NonNull String userName);
+    void onTwitterSignIn(TwitterSession session);
 
     /**
      * This method will execute when user profile is received.

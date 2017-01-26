@@ -14,29 +14,10 @@
         android:id="@+id/menu_overflow"
         android:orderInCategory="11111"
         app:showAsAction="always">
-        <menu>
 
-            <!-- Refresh -->
-            <item
-                android:id="@+id/action_refresh"
-                android:icon="@drawable/ic_refresh_black_24dp"
-                app:showAsAction="ifRoom"
-                android:title="Refresh"/>
-
-            <item
-                android:id="@+id/action_sign_in"
-                app:showAsAction="never"
-                android:title="Sign In"/>
-            <item
-                android:id="@+id/action_sign_out"
-                app:showAsAction="never"
-                android:title="Sign Out"/>
-
-            <!-- Check updates -->
-            <item
-                android:id="@+id/action_check_updates"
-                app:showAsAction="never"
-                android:title="Check Updates"/>
-        </menu>
+        <item
+            android:id="@+id/action_sign_out"
+            app:showAsAction="never"
+            android:title="Sign Out"/>
     </item>
 </menu>

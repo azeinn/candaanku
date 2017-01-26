@@ -63,10 +63,11 @@ public class TwitterHelper {
         @Override
         public void success(Result<TwitterSession> result) {
             TwitterSession session = result.data;
-            mListener.onTwitterSignIn(session.getUserName(), session.getUserId() + " ");
+            mListener.onTwitterSignIn(session);
+            //mListener.onTwitterSignIn(session.getUserName(), session.getUserId() + " ");
 
             //load user data.
-            getUserData();
+            //getUserData();
         }
 
         @Override

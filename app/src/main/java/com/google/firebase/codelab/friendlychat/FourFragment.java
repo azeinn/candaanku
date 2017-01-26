@@ -1,6 +1,7 @@
 package com.google.firebase.codelab.friendlychat;
 
 import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -43,6 +44,7 @@ public class FourFragment extends Fragment {
 
     private static final String TAG = "AndroidBash";
     private static final String JOKES = "jokes";
+    private static final int SIGNED_OUT_ID = 1;
 
     private EditText mJokeEditText;
     private Button mPostButton;
@@ -53,7 +55,7 @@ public class FourFragment extends Fragment {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private FirebaseRecyclerAdapter<Joke, MainActivity2.MyJokeViewHolder> mFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Joke, MyJokeViewHolder> mFirebaseAdapter;
     private DatabaseReference mFirebaseDatabaseReference;
     //private FirebaseAuth mFirebaseAuth;
     //private FirebaseUser mFirebaseUser;
@@ -64,7 +66,7 @@ public class FourFragment extends Fragment {
     public FourFragment() {
         Log.d("mainactivity1", "FourFragment instantiated");
 
-        //setHasOptionsMenu(true);    // Required empty public constructor
+        setHasOptionsMenu(true);    // Required empty public constructor
     }
 
     @Override
@@ -78,7 +80,7 @@ public class FourFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_four, container, false);
         // Initialize Firebase Auth
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -110,14 +112,14 @@ public class FourFragment extends Fragment {
          * @param ref        The Firebase location to watch for data changes. Can also be a slice of a location, using some
          *                   combination of <code>limit()</code>, <code>startAt()</code>, and <code>endAt()
          */
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Joke, MainActivity2.MyJokeViewHolder>(
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Joke, MyJokeViewHolder>(
                 Joke.class,
                 R.layout.item_joke_layout,
-                MainActivity2.MyJokeViewHolder.class,
+                MyJokeViewHolder.class,
                 mFirebaseDatabaseReference.child(JOKES)) {
 
             @Override
-            protected void populateViewHolder(MainActivity2.MyJokeViewHolder viewHolder, final Joke joke, int position) {
+            protected void populateViewHolder(MyJokeViewHolder viewHolder, final Joke joke, int position) {
                 /**
                  * Each time the data at the given Firebase location changes, this method will be called for each item that needs
                  * to be displayed. The first two arguments correspond to the mLayout and mModelClass given to the constructor of
@@ -129,7 +131,6 @@ public class FourFragment extends Fragment {
                  * @param model      The object containing the data used to populate the view
                  * @param position  The position in the list of the view being populated
                  */
-                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 viewHolder.jokeTextView.setText(joke.text);
                 viewHolder.jokeAuthorTextView.setText(joke.name);
                 viewHolder.likeCount.setText(joke.likeCount + "");
@@ -270,96 +271,38 @@ public class FourFragment extends Fragment {
             }
         });
 
+        mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+
         return view;
     }
-/*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //super.onCreateOptionsMenu(menu, inflater);
-        //menu.add(Menu.NONE, CHANGE_CATEGORY_ID, Menu.NONE,
-        //        getString(R.string.showjoke_changecat));
-        //getActivity().getMenuInflater().inflate(R.menu.activity_splash, menu);
-        // You can look up you menu item here and store it in a global variable by
-        // 'mMenuItem = menu.findItem(R.id.my_menu_item);'
-        inflater.inflate(R.menu.action_menu_online, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sign_out:
-                signOut();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    */
-    private void signOut() {
-        switch (MainActivity1.signedAs){
-            case 1:
-                mFirebaseAuth.signOut();
-                break;
-            case 2:
-                ((MainActivity1)getActivity()).mGAuthHelper.performSignOut();
-                break;
-            case 3:
-                ((MainActivity1)getActivity()).mGHelper.signOut();
-                break;
-            case 4:
-                ((MainActivity1)getActivity()).mFbHelper.performSignOut();
-                break;
-            case 5:
-                //mFirebaseAuth.signOut();
-                break;
-            case 6:
-                ((MainActivity1)getActivity()).mLinkedInHelper.logout();
-                break;
-            case 7:
-                //mFirebaseAuth.signOut();
-                break;
-            default: break;
-
-        }
-        MainActivity1.signedAs = 0;
-        //((MainActivity1)getActivity()).replaceViewPager(3);
-        //updateUI(null);
-    }
-
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.sign_out_menu:
-                mFirebaseAuth.signOut();
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mFirebaseUser = null;
-                mUsername = null;
-                mPhotoUrl = null;
-                viewPager.setCurrentItem(3);
-                //startActivity(new Intent(this, SignInActivity.class));
-                //finish();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //super.onCreateOptionsMenu(menu, inflater);
+        menu.add(Menu.NONE, SIGNED_OUT_ID, Menu.NONE,
+                "Sign Out");
+        //getActivity().getMenuInflater().inflate(R.menu.activity_splash, menu);
+        // You can look up you menu item here and store it in a global variable by
+        // 'mMenuItem = menu.findItem(R.id.my_menu_item);'
+    }
+
+
+    /**
+     * Attempts to set the categories as selected.
+     */
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case SIGNED_OUT_ID:
+                ((MainActivity1)getActivity()).performSignout();
+                break;
+        }
+        return false;
     }
 
     public static class MyJokeViewHolder extends RecyclerView.ViewHolder {
@@ -378,4 +321,5 @@ public class FourFragment extends Fragment {
             likeCount = (TextView) itemView.findViewById(R.id.like_count);
         }
     }
+
 }
