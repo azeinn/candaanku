@@ -43,7 +43,7 @@ public class FacebookHelper {
                           @NonNull String fieldString,
                           @NonNull Activity context) {
         FacebookSdk.sdkInitialize(context.getApplicationContext());
-
+        LoginManager.getInstance().logOut();
         //noinspection ConstantConditions
         if (responseListener == null)
             throw new IllegalArgumentException("FacebookResponse listener cannot be null.");
@@ -59,10 +59,11 @@ public class FacebookHelper {
         FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                mListener.onFbSignInSuccess();
+                //mListener.onFbSignInSuccess();
+                mListener.onFbSignInSuccess(loginResult.getAccessToken());
 
                 //get the user profile
-                getUserProfile(loginResult);
+                // getUserProfile(loginResult);
             }
 
             @Override

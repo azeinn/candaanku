@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
+import com.facebook.login.LoginResult;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -49,6 +50,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -408,9 +410,8 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     }
 
     @Override
-    public void onFbSignInSuccess() {
-        signedAs = 4;
-        //replaceViewPager(4);
+    public void onFbSignInSuccess(AccessToken token) {
+        firebaseAuthwithFacebook(token);
         Toast.makeText(this, "Facebook sign in success", Toast.LENGTH_SHORT).show();
     }
 
@@ -487,6 +488,64 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         //GoogleSignInAccount account = user.getSignInAccount();
         firebaseAuthWithGoogle(user);
     }
+
+    @Override
+    public void onGoogleAuthSignInFailed() {
+        Toast.makeText(this, "Google sign in failed.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGoogleAuthSignOut(boolean isSuccess) {
+        justSigned = false;
+        Toast.makeText(this, isSuccess ? "Sign out success" : "Sign out failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onInstagramSignInSuccess(InstagramUser user) {
+        signedAs = 7;
+        //replaceViewPager(4);
+        Toast.makeText(this, "Instagram user data: full name name=" + user.getFull_name() + " user name=" + user.getUsername(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onInstagramSignInFail(String error) {
+        Toast.makeText(this, "Instagram sign in failed", Toast.LENGTH_SHORT).show();
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void firebaseAuthwithFacebook(AccessToken token) {
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithCredential", task.getException());
+                            Toast.makeText(MainActivity1.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(MainActivity1.this, "Authentication Success. Please Wait",
+                                    Toast.LENGTH_SHORT).show();
+                            justSigned = true;
+                            signedAs = 4;
+                            replaceViewPager(4);
+
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
     private void firebaseAuthWithGoogle(GoogleAuthUser user) {
         Log.d(TAG, "firebaseAuthWithGooogle:" + user.idToken);
         AuthCredential credential = GoogleAuthProvider.getCredential(user.idToken, null);
@@ -513,29 +572,6 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                         //hideProgressDialog();
                     }
                 });
-    }
-
-    @Override
-    public void onGoogleAuthSignInFailed() {
-        Toast.makeText(this, "Google sign in failed.", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onGoogleAuthSignOut(boolean isSuccess) {
-        justSigned = false;
-        Toast.makeText(this, isSuccess ? "Sign out success" : "Sign out failed", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onInstagramSignInSuccess(InstagramUser user) {
-        signedAs = 7;
-        //replaceViewPager(4);
-        Toast.makeText(this, "Instagram user data: full name name=" + user.getFull_name() + " user name=" + user.getUsername(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onInstagramSignInFail(String error) {
-        Toast.makeText(this, "Instagram sign in failed", Toast.LENGTH_SHORT).show();
     }
 
     public boolean onPrepareOptionsMenu(Menu menu)
