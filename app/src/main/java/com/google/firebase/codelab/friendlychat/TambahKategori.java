@@ -1,4 +1,4 @@
-//package com.google.firebase.codelab.friendlychat.database;
+//package com.google.firebase.codelab.friendlychat;
 //
 //import android.app.Activity;
 //import android.os.Bundle;
@@ -8,7 +8,8 @@
 //import android.widget.EditText;
 //import android.widget.Toast;
 //
-//import com.google.firebase.codelab.friendlychat.R;
+//import com.google.firebase.codelab.friendlychat.database.AsyncDBHelper;
+//import com.google.firebase.codelab.friendlychat.MainActivity1;
 //
 ///**
 // * This activity lets the users add categories to the database.
@@ -17,7 +18,7 @@
 // * @author Caroline Castonguay-Boisvert 084348
 // *
 // */
-//public class AddCategory extends Activity {
+//public class TambahKategori extends Activity {
 //
 //	private EditText catText = null;
 //	private AsyncDBHelper database = null;
@@ -32,7 +33,7 @@
 //		super.onCreate(savedInstanceState);
 //		setContentView(R.layout.activity_addcategory);
 //
-//		database = MainPage.getAsyncDBHelper();
+//		database = MainActivity1.getAsyncDBHelper();
 //		catText = (EditText) findViewById(R.id.addcat_editTextCat);
 //
 //		// Add button onClickListener
@@ -59,7 +60,7 @@
 //					else
 //						displayText = getString(R.string.added);
 //				}
-//				Toast.makeText(AddCategory.this, displayText,
+//				Toast.makeText(TambahKategori.this, displayText,
 //						Toast.LENGTH_SHORT).show();
 //				catText.setText("");
 //			}
@@ -70,7 +71,7 @@
 //		Button backButton = (Button) findViewById(R.id.addcat_backButton);
 //		backButton.setOnClickListener(new OnClickListener() {
 //			public void onClick(View v) {
-//				AddCategory.this.finish();
+//				TambahKategori.this.finish();
 //			}
 //
 //		});

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.google.firebase.codelab.friendlychat.MainActivity1;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -166,7 +168,7 @@ public class DBHelper extends SQLiteOpenHelper {
 					+ " values(null, 'Why do programmers always confuse Halloween and Christmas?','Because OCT 31 = DEC 25','Geek');");
 
 			} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while creating the database:\n"
 							+ e.getClass() + " " + e.getMessage());
 		}*/
@@ -214,7 +216,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			jokes = getReadableDatabase().query(TABLE_JOKES, null, whereClause,
 					categories, null, null, null);
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while querying jokes in categories:\n"
 							+ e.getClass() + " " + e.getMessage());
 		}
@@ -232,7 +234,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			categoriesCursor = getReadableDatabase().query(TABLE_CATEGORIES,
 					null, null, null, null, null, COLUMN_CATEGORY_CATEGORIES);
 		} catch (Exception e) {
-			Log.e(MainPage.TAG, "Exception caught while getting categories:\n"
+			Log.e(MainActivity1.TAG, "Exception caught while getting categories:\n"
 					+ e.getClass() + " " + e.getMessage());
 		}
 		return categoriesCursor;
@@ -259,7 +261,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			cv.put(COLUMN_CATEGORY, category);
 			code = getWritableDatabase().insert(TABLE_JOKES, null, cv);
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while adding a joke:\n" + e.getClass()
 							+ " " + e.getMessage());
 			code = -2;
@@ -275,7 +277,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			cv.put(COLUMN_JAWABAN_TEKATEKI, answer);
 			code = getWritableDatabase().insert(TABLE_TEKATEKI, null, cv);
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while adding a Tekateki:\n" + e.getClass()
 							+ " " + e.getMessage());
 			code = -2;
@@ -297,7 +299,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			cv.put(COLUMN_CATEGORY_CATEGORIES, category);
 			code = getWritableDatabase().insert(TABLE_CATEGORIES, null, cv);
 		} catch (Exception e) {
-			Log.e(MainPage.TAG, "Exception caught while adding a category:\n"
+			Log.e(MainActivity1.TAG, "Exception caught while adding a category:\n"
 					+ e.getClass() + " " + e.getMessage());
 			code = -2;
 		}
@@ -317,7 +319,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			getWritableDatabase().delete(TABLE_JOKES, COLUMN_ID + "=?",
 					new String[] { String.valueOf(id) });
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while deleting joke:\n" + "Category id: "
 							+ id + "\n" + e.getClass() + " " + e.getMessage());
 			deleted = false;
@@ -358,7 +360,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				deleted = false;
 
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while deleting category:\n"
 							+ "Category id: " + id + "\n" + e.getClass() + " "
 							+ e.getMessage());
@@ -388,7 +390,7 @@ public class DBHelper extends SQLiteOpenHelper {
 					new String[] { category }) !=1)
 				deleted = false;
 		} catch (Exception e) {
-			Log.e(MainPage.TAG, "Exception caught while deleting category:\n"
+			Log.e(MainActivity1.TAG, "Exception caught while deleting category:\n"
 					+ "Category name: " + category + "\n" + e.getClass() + " "
 					+ e.getMessage());
 			deleted = false;
@@ -404,7 +406,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			cv.put(COLUMN_ISI_CERITA, isi);
 			code = getWritableDatabase().insert(TABLE_CERITA, null, cv);
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while adding a cerita:\n" + e.getClass()
 							+ " " + e.getMessage());
 			code = -2;
@@ -423,7 +425,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			getWritableDatabase().delete(TABLE_CERITA, COLUMN_ID + "=?",
 					new String[] { String.valueOf(id) });
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while deleting cerita:\n" + "Category id: "
 							+ id + "\n" + e.getClass() + " " + e.getMessage());
 			deleted = false;
@@ -440,7 +442,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			cv.put(COLUMN_JAWABAN_TEKATEKI, jawaban);
 			code = getWritableDatabase().insert(TABLE_TEKATEKI, null, cv);
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while adding a tekateki:\n" + e.getClass()
 							+ " " + e.getMessage());
 			code = -2;
@@ -459,7 +461,7 @@ public class DBHelper extends SQLiteOpenHelper {
 			getWritableDatabase().delete(TABLE_TEKATEKI, COLUMN_ID + "=?",
 					new String[] { String.valueOf(id) });
 		} catch (Exception e) {
-			Log.e(MainPage.TAG,
+			Log.e(MainActivity1.TAG,
 					"Exception caught while deleting tekateki:\n" + "Category id: "
 							+ id + "\n" + e.getClass() + " " + e.getMessage());
 			deleted = false;

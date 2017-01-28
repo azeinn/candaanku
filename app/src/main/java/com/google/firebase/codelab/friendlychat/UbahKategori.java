@@ -1,4 +1,4 @@
-//package com.google.firebase.codelab.friendlychat.database;
+//package com.google.firebase.codelab.friendlychat;
 //
 //import android.app.Activity;
 //import android.app.AlertDialog;
@@ -17,7 +17,8 @@
 //import android.widget.TextView;
 //import android.widget.Toast;
 //
-//import com.google.firebase.codelab.friendlychat.R;
+//import com.google.firebase.codelab.friendlychat.database.AsyncDBHelper;
+//import com.google.firebase.codelab.friendlychat.MainActivity1;
 //
 //import java.util.ArrayList;
 //
@@ -29,7 +30,7 @@
 // * @author Caroline Castonguay-Boisvert 084348
 // *
 // */
-//public class SetCategory extends Activity {
+//public class UbahKategori extends Activity {
 //
 //	private ArrayList<String> categories = new ArrayList<String>();
 //	private ArrayList<CheckBox> checkBoxes = new ArrayList<CheckBox>();
@@ -48,8 +49,8 @@
 //		super.onCreate(savedInstanceState);
 //		setContentView(R.layout.activity_setcategory);
 //
-//		prefs = getSharedPreferences(MainPage.TAG, MODE_PRIVATE);
-//		database = MainPage.getAsyncDBHelper();
+//		prefs = getSharedPreferences(MainActivity1.TAG, MODE_PRIVATE);
+//		database = MainActivity1.getAsyncDBHelper();
 //
 //		// Save button onClickListener
 //		Button saveButton = (Button) findViewById(R.id.set_cat_buttonSaveChanges);
@@ -69,7 +70,7 @@
 //		Button backButton = (Button) findViewById(R.id.setcat_backButton);
 //		backButton.setOnClickListener(new OnClickListener() {
 //			public void onClick(View v) {
-//				SetCategory.this.finish();
+//				UbahKategori.this.finish();
 //			}
 //
 //		});
@@ -147,7 +148,7 @@
 //				new DialogInterface.OnClickListener() {
 //					public void onClick(DialogInterface dialog, int button) {
 //						deleteCategories();
-//						SetCategory.this.finish();
+//						UbahKategori.this.finish();
 //					}
 //				});
 //
@@ -156,10 +157,10 @@
 //		builder.setNegativeButton(R.string.setcat_no,
 //				new DialogInterface.OnClickListener() {
 //					public void onClick(DialogInterface dialog, int button) {
-//						Toast.makeText(SetCategory.this,
+//						Toast.makeText(UbahKategori.this,
 //								R.string.setcat_notdeleted, Toast.LENGTH_SHORT)
 //								.show();
-//						SetCategory.this.finish();
+//						UbahKategori.this.finish();
 //					}
 //				});
 //
@@ -239,9 +240,9 @@
 //
 //		// Displays a message to the user if there was an error during deletion.
 //		if (!noErrors)
-//			Toast.makeText(SetCategory.this, R.string.setcat_errordeleting,
+//			Toast.makeText(UbahKategori.this, R.string.setcat_errordeleting,
 //					Toast.LENGTH_SHORT).show();
 //
-//		Toast.makeText(SetCategory.this, message, Toast.LENGTH_SHORT).show();
+//		Toast.makeText(UbahKategori.this, message, Toast.LENGTH_SHORT).show();
 //	}
 //}

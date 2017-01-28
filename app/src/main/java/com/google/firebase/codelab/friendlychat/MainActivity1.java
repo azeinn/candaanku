@@ -32,7 +32,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -49,14 +48,6 @@ import com.google.firebase.codelab.friendlychat.facebookSignIn.FacebookUser;
 import com.google.firebase.codelab.friendlychat.googleAuthSignin.GoogleAuthResponse;
 import com.google.firebase.codelab.friendlychat.googleAuthSignin.GoogleAuthUser;
 import com.google.firebase.codelab.friendlychat.googleAuthSignin.GoogleSignInHelper;
-import com.google.firebase.codelab.friendlychat.googleSignIn.GooglePlusSignInHelper;
-import com.google.firebase.codelab.friendlychat.googleSignIn.GoogleResponseListener;
-import com.google.firebase.codelab.friendlychat.instagramSignIn.InstagramHelper;
-import com.google.firebase.codelab.friendlychat.instagramSignIn.InstagramResponse;
-import com.google.firebase.codelab.friendlychat.instagramSignIn.InstagramUser;
-import com.google.firebase.codelab.friendlychat.linkedInSiginIn.LinkedInHelper;
-import com.google.firebase.codelab.friendlychat.linkedInSiginIn.LinkedInResponse;
-import com.google.firebase.codelab.friendlychat.linkedInSiginIn.LinkedInUser;
 import com.google.firebase.codelab.friendlychat.twitterSignIn.TwitterHelper;
 import com.google.firebase.codelab.friendlychat.twitterSignIn.TwitterResponse;
 import com.google.firebase.codelab.friendlychat.twitterSignIn.TwitterUser;
@@ -65,10 +56,10 @@ import com.twitter.sdk.android.core.TwitterSession;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity1 extends AppCompatActivity implements GoogleResponseListener, FacebookResponse, TwitterResponse,
-        LinkedInResponse, GoogleAuthResponse, InstagramResponse/*, TabLayout.OnTabSelectedListener */{
+public class MainActivity1 extends AppCompatActivity implements /*/*GoogleResponseListener, */FacebookResponse,
+        TwitterResponse,/* LinkedInResponse, */GoogleAuthResponse/*, InstagramResponse, TabLayout.OnTabSelectedListener */{
 
-    private static final String TAG = "MainActivity1";
+    public static final String TAG = "Candaanku";
     public static final String TAG_CERITA = "Candaanku";
     public static final String TAG_TEKATEKI = "Tekatekiku";
 
@@ -81,11 +72,11 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     public static int signedAs = 0; // 0 = sign out, 1 = origin, 2 = google, 3 = google +, 4 = facebook, 5 = twitter,
     public static boolean justSigned = false;
     public FacebookHelper mFbHelper;
-    public GooglePlusSignInHelper mGHelper;
+    //public GooglePlusSignInHelper mGHelper;
     public GoogleSignInHelper mGAuthHelper;
     public TwitterHelper mTwitterHelper;
-    public LinkedInHelper mLinkedInHelper;
-    public InstagramHelper mInstagramHelper;
+    //public LinkedInHelper mLinkedInHelper;
+    //public InstagramHelper mInstagramHelper;
 
     public String mUsername;
     public String mPhotoUrl;
@@ -102,6 +93,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main1);
+        //new LoadView(this).execute();
 
         //Log.d("mainactivity1","sudah loaded");
 
@@ -120,9 +112,9 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        mGHelper = new GooglePlusSignInHelper(this, this);
+        //mGHelper = new GooglePlusSignInHelper(this, this);
 
-        //google auth initialization
+       //google auth initialization
         mGAuthHelper = new GoogleSignInHelper(this, null, this);
 
         //fb api initialization
@@ -137,13 +129,11 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 this);
 
         //linkedIn initializer
-        mLinkedInHelper = new LinkedInHelper(this, this);
+        //mLinkedInHelper = new LinkedInHelper(this, this);
 
         //instagram initializer
-        mInstagramHelper = new InstagramHelper(
-                getResources().getString(R.string.instagram_client_id),
-                getResources().getString(R.string.instagram_client_secret),
-                getResources().getString(R.string.instagram_callback_url), this, this);
+        //mInstagramHelper = new InstagramHelper(getResources().getString(R.string.instagram_client_id),
+        //        getResources().getString(R.string.instagram_client_secret), getResources().getString(R.string.instagram_callback_url), this, this);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -156,7 +146,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                     // User is signed in
                     if(user.getDisplayName()!=null){
                         Log.i("mainactiity1", "user.getDisplayName()="+user.getDisplayName());
-                        replaceViewPager(4);
+                        replaceViewPager(4, 2);
                        // if (menu!=null)
                        //     signedInOptionMenu(true);
                     }
@@ -165,7 +155,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 } else {
                     //if (menu!=null)
                    //     signedInOptionMenu(false);
-                    replaceViewPager(3);
+                    replaceViewPager(3, 2);
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
@@ -177,9 +167,49 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         };
 
         Ads.showBanner(this);
-
         //tabLayout.setOnTabSelectedListener(this);
     }
+/*
+    public class LoadView extends AsyncTask<Void, Void, Void> {
+        private MainActivity1 mainActivity1 ;
+
+        public LoadView ( MainActivity1 context ) {
+            this.mainActivity1 = context ;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mainActivity1.showProgressDialog();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            asyncDBHelper = new AsyncDBHelper(mainActivity1);
+
+            mGAuthHelper = new GoogleSignInHelper(mainActivity1, null, mainActivity1);
+
+            //fb api initialization
+            mFbHelper = new FacebookHelper(mainActivity1,
+                    "id,name,email,gender,birthday,picture,cover",
+                    mainActivity1);
+
+            //twitter initialization
+            mTwitterHelper = new TwitterHelper(R.string.twitter_api_key,
+                    R.string.twitter_secret_key,
+                    mainActivity1,
+                    mainActivity1);
+            //Do all DB related Task Here
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mainActivity1.hideProgressDialog();
+        }
+    }
+    */
 //
 //    @Override
 //    public void onTabSelected(TabLayout.Tab tab) {
@@ -230,17 +260,45 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         //adapter.addFrag(new FourFragment(), "FOUR");
         viewPager.setAdapter(adapter);
     }
-    public void replaceViewPager(int frag) {
-        if (adapter!=null) {
-            if (frag == 4) {
-                adapter.replaceFrag(new FourFragment(), 2);
-                Log.i("mainactiity1", "replacefrag = 4");
-            }
-            else if (frag == 3)
-                adapter.replaceFrag(new ThreeFragment(), 2);
-            adapter.notifyDataSetChanged();
-            Log.d("mainactivity1", "tadapter="+adapter);
 
+    public void replaceViewPager(Fragment frag, int pos) {
+        if (adapter!=null) {
+            adapter.replaceFrag(frag, pos);
+            adapter.notifyDataSetChanged();
+             Log.i("mainactiity1", "replaceViewPagerFragment = "+frag + "pos="+pos);
+        }
+    }
+
+    public void replaceViewPager(int frag, int pos) {
+        if (adapter!=null) {
+            switch (frag) {
+                case 1:
+                    adapter.replaceFrag(new TambahKategoriFragment(), pos);
+                    break;
+                case 2:
+                    adapter.replaceFrag(new PilihKategoriFragment(), pos);
+                    break;
+
+                case 3:
+                    adapter.replaceFrag(new ThreeFragment(), pos);
+                    break;
+                case 4:
+                    adapter.replaceFrag(new FourFragment(), pos);
+                    break;
+
+                case 5:
+                    adapter.replaceFrag(new TambahCeritaFragment(), pos);
+                    break;
+                case 11:
+                    adapter.replaceFrag(new OneFragment(), pos);
+                    break;
+                case 21:
+                    adapter.replaceFrag(new TwoFragment(), pos);
+                    break;
+                default: break;
+            }
+            adapter.notifyDataSetChanged();
+           // Log.i("mainactiity1", "replacefrag = "+frag + "pos="+pos);
         }
     }
     // GoogleApiClient googleApiClient;
@@ -276,6 +334,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         public void replaceFrag(Fragment fragment, int index) {
             mFragmentList.remove(index);
             mFragmentList.add(index, fragment);
+            Log.i("mainactiity1", "replaceFrag fragment= "+fragment + "index="+index);
             // do the same for the title
             //notifyDataSetChanged();
         }
@@ -340,19 +399,6 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.action_search:
-                return true;
-
-            case R.id.action_share:
-                return true;
-
-            case R.id.action_refresh:
-                return true;
-
-            case R.id.action_sign_out:
-
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -368,7 +414,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                 mGAuthHelper.performSignOut();
                 break;
             case 3:
-                mGHelper.signOut();
+                //mGHelper.signOut();
                 break;
             case 4:
                 mFbHelper.performSignOut();
@@ -376,7 +422,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
             case 5:
                 break;
             case 6:
-                mLinkedInHelper.logout();
+                //mLinkedInHelper.logout();
                 break;
             case 7:
                 break;
@@ -395,13 +441,13 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mGHelper.disconnectApiClient();
+        //mGHelper.disconnectApiClient();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         //handle permissions
-        mGHelper.onPermissionResult(requestCode, grantResults);
+        //mGHelper.onPermissionResult(requestCode, grantResults);
     }
 
     @Override
@@ -409,10 +455,10 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         super.onActivityResult(requestCode, resultCode, data);
         //handle results
         mFbHelper.onActivityResult(requestCode, resultCode, data);
-        mGHelper.onActivityResult(requestCode, resultCode, data);
+        //mGHelper.onActivityResult(requestCode, resultCode, data);
         mGAuthHelper.onActivityResult(requestCode, resultCode, data);
         mTwitterHelper.onActivityResult(requestCode, resultCode, data);
-        mLinkedInHelper.onActivityResult(requestCode, resultCode, data);
+        //mLinkedInHelper.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -422,8 +468,10 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
 
     @Override
     public void onFbSignInSuccess(AccessToken token) {
+        showProgressDialog();
+        //replaceViewPager(4);
         firebaseAuthwithFacebook(token);
-        Toast.makeText(this, "Facebook sign in success", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Loading data..", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -441,7 +489,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         signedAs = 0;
         Toast.makeText(this, "Facebook sign out success", Toast.LENGTH_SHORT).show();
     }
-
+/*
     @Override
     public void onGSignInFail() {
         Toast.makeText(this, "Google sign in failed.", Toast.LENGTH_SHORT).show();
@@ -458,7 +506,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         Log.d("Person name: ", person.getName() + "");
         Log.d("Person id: ", person.getImage() + "");
     }
-
+*/
     @Override
     public void onTwitterError() {
         Toast.makeText(this, "Twitter sign in failed.", Toast.LENGTH_SHORT).show();
@@ -466,6 +514,9 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
 
     @Override
     public void onTwitterSignIn(TwitterSession session) {
+        showProgressDialog();
+        //replaceViewPager(4);
+        //Toast.makeText(this, "Loading data..", Toast.LENGTH_SHORT).show();
         firebaseAuthWithTwitter(session);
         //replaceViewPager(4);
         //Toast.makeText(this, " User id: " +  userId + "\n user name" + userName, Toast.LENGTH_SHORT).show();
@@ -475,7 +526,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     public void onTwitterProfileReceived(TwitterUser user) {
         Toast.makeText(this, "Twitter user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
     }
-
+/*
     @Override
     public void onLinkedInSignInFail() {
         Toast.makeText(this, "LinkedIn sign in failed.", Toast.LENGTH_SHORT).show();
@@ -492,10 +543,13 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     public void onLinkedInProfileReceived(LinkedInUser user) {
         Toast.makeText(this, "LinkedIn user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
     }
-
+*/
     @Override
     public void onGoogleAuthSignIn(GoogleAuthUser user) {
-         Toast.makeText(this, "Google user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
+        showProgressDialog();
+        //replaceViewPager(4);
+        //Toast.makeText(this, "Loading data..", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Google user data: name= " + user.name + " email= " + user.email, Toast.LENGTH_SHORT).show();
         //GoogleSignInAccount account = user.getSignInAccount();
         firebaseAuthWithGoogle(user);
     }
@@ -510,7 +564,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
         //justSigned = false;
         Toast.makeText(this, isSuccess ? "Sign out success" : "Sign out failed", Toast.LENGTH_SHORT).show();
     }
-
+/*
     @Override
     public void onInstagramSignInSuccess(InstagramUser user) {
         signedAs = 7;
@@ -522,8 +576,69 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
     public void onInstagramSignInFail(String error) {
         Toast.makeText(this, "Instagram sign in failed", Toast.LENGTH_SHORT).show();
     }
-
+*/
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+public void createAccount(String email, String password) {
+    Log.d(TAG, "createAccount:" + email);
+
+    showProgressDialog();
+
+    // [START create_user_with_email]
+    mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                    // If sign in fails, display a message to the user. If sign in succeeds
+                    // the auth state listener will be notified and logic to handle the
+                    // signed in user can be handled in the listener.
+                    if (!task.isSuccessful()) {
+                         Toast.makeText(MainActivity1.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(MainActivity1.this, "User account created successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    // [START_EXCLUDE]
+                    hideProgressDialog();
+                    // [END_EXCLUDE]
+                }
+            });
+    // [END create_user_with_email]
+}
+
+    public void signIn(String email, String password) {
+        Log.d(TAG, "signIn:" + email);
+
+        showProgressDialog();
+
+        // [START sign_in_with_email]
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                        hideProgressDialog();
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail", task.getException());
+                            Toast.makeText(MainActivity1.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            replaceViewPager(4, 2);
+                        }
+
+                        // [START_EXCLUDE]
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END sign_in_with_email]
+    }
 
     private void firebaseAuthWithTwitter(TwitterSession session) {
         Log.d(TAG, "handleTwitterSession:" + session);
@@ -547,7 +662,7 @@ public class MainActivity1 extends AppCompatActivity implements GoogleResponseLi
                                     Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            signedAs = 5;
+                            signedAs = 1;
 
                         }
 

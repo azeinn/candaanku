@@ -1,4 +1,4 @@
-//package com.google.firebase.codelab.friendlychat.database;
+//package com.google.firebase.codelab.friendlychat;
 //
 //import android.app.Activity;
 //import android.app.AlertDialog;
@@ -23,7 +23,8 @@
 //import android.widget.TextView;
 //import android.widget.Toast;
 //
-//import com.google.firebase.codelab.friendlychat.R;
+//import com.google.firebase.codelab.friendlychat.database.AsyncDBHelper;
+//import com.google.firebase.codelab.friendlychat.MainActivity1;
 //
 //import java.util.ArrayList;
 //
@@ -35,7 +36,7 @@
 // * @author Caroline Castonguay-Boisvert 084348
 // *
 // */
-//public class AddJoke extends Activity {
+//public class TambahCerita extends Activity {
 //
 //	private ArrayList<String> categories = new ArrayList<String>();
 //	private RadioGroup radioGroup = null;
@@ -56,7 +57,7 @@
 //		super.onCreate(savedInstanceState);
 //		setContentView(R.layout.activity_addjoke);
 //
-//		database = MainPage.getAsyncDBHelper();
+//		database = MainActivity1.getAsyncDBHelper();
 //
 //		// Adds all the categories to the ListView.
 //		addCategoriesToList();
@@ -78,7 +79,7 @@
 //					errorMessage = getString(R.string.addjoke_noanswer);
 //
 //				if (errorMessage != "") {
-//					Toast.makeText(AddJoke.this, errorMessage,
+//					Toast.makeText(TambahCerita.this, errorMessage,
 //							Toast.LENGTH_LONG).show();
 //				} else {
 //					// Add the new valid joke.
@@ -87,7 +88,7 @@
 //					String category = selectedButton.getText().toString();
 //
 //					database.addNewJoke(joke, answer, category);
-//					Toast.makeText(AddJoke.this, R.string.addjoke_added,
+//					Toast.makeText(TambahCerita.this, R.string.addjoke_added,
 //							Toast.LENGTH_LONG).show();
 //
 //					jokeText.setText("");
@@ -100,7 +101,7 @@
 //		Button backButton = (Button) findViewById(R.id.addjoke_backButton);
 //		backButton.setOnClickListener(new OnClickListener() {
 //			public void onClick(View v) {
-//				AddJoke.this.finish();
+//				TambahCerita.this.finish();
 //			}
 //
 //		});

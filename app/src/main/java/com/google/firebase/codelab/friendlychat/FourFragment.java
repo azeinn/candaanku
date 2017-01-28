@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -51,7 +52,7 @@ public class FourFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
-    private ProgressBar mProgressBar;
+    //private ProgressBar mProgressBar;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -86,17 +87,20 @@ public class FourFragment extends Fragment {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-        if (mFirebaseUser != null) {
+     /*   if (mFirebaseUser == null) {
+            String username = ((MainActivity1)getActivity()).mUsername;
+            if (username!=null)
+                mFirebaseUser = username;
             //mUsername = mFirebaseUser.getDisplayName();
             //mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-        }
+        }*/
         //The main entry point for Google Play services integration. Builder to configure a GoogleApiClient is required.
       //  mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
       //          .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
       //          .addApi(Auth.GOOGLE_SIGN_IN_API)
       //          .build();
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        //mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.mRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mLinearLayoutManager.setStackFromEnd(true);
@@ -251,6 +255,8 @@ public class FourFragment extends Fragment {
         mPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                 Map<String, Boolean> likesGivenBy = new HashMap<>();
                 //Key under which a joke will be stored. Firebase assigns a unique id for every new joke pushed.
@@ -271,8 +277,8 @@ public class FourFragment extends Fragment {
             }
         });
 
-        mProgressBar.setVisibility(ProgressBar.INVISIBLE);
-
+        //mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+        ((MainActivity1)getActivity()).hideProgressDialog();
         return view;
     }
 

@@ -1,3 +1,4 @@
+
 package com.google.firebase.codelab.friendlychat.database;
 
 import android.app.Activity;
@@ -7,19 +8,22 @@ import android.widget.Button;
 
 import com.google.firebase.codelab.friendlychat.R;
 
+
 /**
  * Contains a utility method that could be used in multiple activities.
- * 
+ *
  * @author Natacha Gabbamonte 0932340
  * @author Caroline Castonguay-Boisvert 084348
  */
+
 public class Utilities {
 
-	/**
+
+/**
 	 * Switches the color of a button for half a second, and then switched it
 	 * back right before launching the new activity. The arguments are final
 	 * because they are used in an inner class.
-	 * 
+	 *
 	 * @param activity
 	 *            the calling activity
 	 * @param toLaunch
@@ -27,6 +31,7 @@ public class Utilities {
 	 * @param button
 	 *            the button that was clicked
 	 */
+
 	public static void changeButtonOnClick(final Activity mainActivity,
 										   final Class<? extends Activity> toLaunch, final Button button) {
 		// Changes the colour of the button onClick
@@ -55,3 +60,4 @@ public class Utilities {
 		}, 455);
 	}
 }
+

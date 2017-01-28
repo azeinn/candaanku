@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.firebase.codelab.friendlychat.MainActivity1;
+
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -41,9 +43,9 @@ public class AsyncDBHelper {
 			String[] cerita = {"cerita"};
 			return new AsyncQuery().execute(cerita).get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return null;
 	}
@@ -52,9 +54,9 @@ public class AsyncDBHelper {
 		try {
 			return new AsyncQueryTekateki().execute().get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return null;
 	}
@@ -74,9 +76,9 @@ public class AsyncDBHelper {
 			return new AsyncInsertTekateki().execute(tekateki, answer, category).get()
 					.longValue();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return -1;
 	}
@@ -99,9 +101,9 @@ public class AsyncDBHelper {
 		try {
 			return new AsyncDeleteTekateki().execute(JOKE, String.valueOf(id)).get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return false;
 	}
@@ -127,9 +129,9 @@ public class AsyncDBHelper {
 		try {
 			return new AsyncQuery().execute().get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return null;
 
@@ -146,9 +148,9 @@ public class AsyncDBHelper {
 		try {
 			return new AsyncQuery().execute(categories).get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return null;
 	}
@@ -163,9 +165,9 @@ public class AsyncDBHelper {
 			String[] temp = null;
 			return new AsyncQuery().execute(temp).get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return null;
 	}
@@ -188,9 +190,9 @@ public class AsyncDBHelper {
 			return new AsyncInsert().execute(joke, answer, category).get()
 					.longValue();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return -1;
 	}
@@ -208,9 +210,9 @@ public class AsyncDBHelper {
 		try {
 			return new AsyncInsert().execute(category).get().longValue();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return -2;
 	}
@@ -227,9 +229,9 @@ public class AsyncDBHelper {
 		try {
 			return new AsyncDelete().execute(JOKE, String.valueOf(id)).get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return false;
 	}
@@ -248,9 +250,9 @@ public class AsyncDBHelper {
 			return new AsyncDelete().execute(CATEGORY, TREAT_AS_INT,
 					String.valueOf(id)).get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return false;
 	}
@@ -269,9 +271,9 @@ public class AsyncDBHelper {
 			return new AsyncDelete().execute(CATEGORY, TREAT_AS_STRING,
 					category).get();
 		} catch (InterruptedException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {
-			Log.e(MainPage.TAG, e.getClass() + " " + e.getMessage());
+			Log.e(MainActivity1.TAG, e.getClass() + " " + e.getMessage());
 		}
 		return false;
 	}
