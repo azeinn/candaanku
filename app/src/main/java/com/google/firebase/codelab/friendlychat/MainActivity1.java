@@ -60,7 +60,7 @@ public class MainActivity1 extends AppCompatActivity implements /*/*GoogleRespon
         TwitterResponse,/* LinkedInResponse, */GoogleAuthResponse/*, InstagramResponse, TabLayout.OnTabSelectedListener */{
 
     public static final String TAG = "Candaanku";
-    public static final String TAG_CERITA = "Candaanku";
+    public static final String TAG_CERITA = "Cerita";
     public static final String TAG_TEKATEKI = "Tekatekiku";
 
     private ProgressDialog mProgressDialog;
@@ -101,7 +101,7 @@ public class MainActivity1 extends AppCompatActivity implements /*/*GoogleRespon
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -272,13 +272,13 @@ public class MainActivity1 extends AppCompatActivity implements /*/*GoogleRespon
     public void replaceViewPager(int frag, int pos) {
         if (adapter!=null) {
             switch (frag) {
-                case 1:
-                    adapter.replaceFrag(new TambahKategoriFragment(), pos);
-                    break;
-                case 2:
-                    adapter.replaceFrag(new PilihKategoriFragment(), pos);
-                    break;
-
+//                case 1:
+//                    adapter.replaceFrag(new TambahKategoriFragment(), pos);
+//                    break;
+//                case 2:
+//                    adapter.replaceFrag(new PilihKategoriFragment(), pos);
+//                    break;
+//
                 case 3:
                     adapter.replaceFrag(new ThreeFragment(), pos);
                     break;
@@ -286,15 +286,15 @@ public class MainActivity1 extends AppCompatActivity implements /*/*GoogleRespon
                     adapter.replaceFrag(new FourFragment(), pos);
                     break;
 
-                case 5:
-                    adapter.replaceFrag(new TambahCeritaFragment(), pos);
-                    break;
-                case 11:
-                    adapter.replaceFrag(new OneFragment(), pos);
-                    break;
-                case 21:
-                    adapter.replaceFrag(new TwoFragment(), pos);
-                    break;
+//                case 5:
+//                    adapter.replaceFrag(new TambahCeritaFragment(), pos);
+//                    break;
+//                case 11:
+//                    adapter.replaceFrag(new OneFragment(), pos);
+//                    break;
+//                case 21:
+//                    adapter.replaceFrag(new TwoFragment(), pos);
+//                    break;
                 default: break;
             }
             adapter.notifyDataSetChanged();
@@ -398,7 +398,9 @@ public class MainActivity1 extends AppCompatActivity implements /*/*GoogleRespon
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
+            case R.id.action_quit:
+                MainActivity1.this.finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -760,6 +762,10 @@ public void createAccount(String email, String password) {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.hide();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
 }

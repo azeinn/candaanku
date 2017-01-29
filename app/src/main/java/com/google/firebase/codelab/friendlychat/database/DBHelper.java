@@ -184,7 +184,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ ", which will destroy all old data");
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOKES);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIES);
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CERITA);
+		//db.execSQL("DROP TABLE IF EXISTS " + TABLE_CERITA);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_TEKATEKI);
 		onCreate(db);
 	}
