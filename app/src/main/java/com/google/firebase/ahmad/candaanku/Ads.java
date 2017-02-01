@@ -1,0 +1,34 @@
+package com.google.firebase.ahmad.candaanku;
+
+import android.app.Activity;
+import android.view.View;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+/**
+ * Created by SnowFlake on 08.02.2016.
+ */
+public class Ads {
+
+    public static void showBanner(final Activity activity){
+
+        final AdView banner = (AdView) activity.findViewById(R.id.banner);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("6408FBBA5336154A4136C933270E7283").build();
+        banner.loadAd(adRequest);
+
+        banner.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                setupContentViewPadding(activity, banner.getHeight());
+            }
+        });
+    }
+
+    public static void setupContentViewPadding(Activity activity, int padding) {
+        View view = activity.findViewById(R.id.coordinator);
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), padding);
+    }
+}
