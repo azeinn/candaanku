@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/mainBackground"
+    android:layout_height="match_parent"
+    >
+
+    <ScrollView
+        android:paddingTop="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textViewQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_small"
+                android:background="@color/mainBackground"
+                android:padding="@dimen/padding_small"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSize" />
+
+            <Button
+                android:id="@+id/buttonShowAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_small"
+                android:background="@color/colorPrimary"
+                android:text="Lihat Jawaban"
+                android:textColor="@color/buttonText"
+                android:width="@dimen/main_buttonWidth" />
+
+            <TextView
+                android:id="@+id/textViewAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_small"
+                android:background="@color/mainBackground"
+                android:padding="@dimen/padding_small"
+                android:text=""
+                android:textColor="@color/buttonBackground"
+                android:textSize="@dimen/textSize" />
+
+            <Button
+                android:id="@+id/buttonNextJoke"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_small"
+                android:background="@color/colorPrimary"
+                android:text="Berikutnya"
+                android:textColor="@color/buttonText"
+                android:width="@dimen/main_buttonWidth" />
+
+            <Button
+                android:id="@+id/buttonDeleteJoke"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_small"
+                android:background="@color/colorPrimary"
+                android:text="Hapus teka-teki"
+                android:textColor="@color/buttonText"
+                android:width="@dimen/main_buttonWidth" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

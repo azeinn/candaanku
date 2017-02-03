@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorTitle">#ffffff</color>
+
+    <!--<color name="Wheat">#E8EAF6</color>-->
+    <!--<color name="mainBackground">#C5CAE9</color>-->
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#3949AB</color>z-->
+
+    <color name="accent">#03A9F4</color>
+    <color name="Wheat">#80CBC4</color>
+    <color name="mainBackground">#B2DFDB</color>
+    <color name="colorPrimary">#00796B</color>
+    <color name="colorPrimaryDark">#00695C</color>z
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#00695C</color>
+    <color name="colorAccent">#c8e8ff</color>
+
+    <color name="google_color">#DC4E41</color>
+    <color name="facebook_color">#3B5998</color>
+    <color name="twitter_color">#00aced</color>
+    <color name="linkedin_color">#0077b5</color>
+
+    <color name="buttonBackground">#000033</color>
+    <color name="buttonText">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+
+</resources>
