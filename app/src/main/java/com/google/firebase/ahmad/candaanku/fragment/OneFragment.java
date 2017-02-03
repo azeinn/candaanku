@@ -1,4 +1,4 @@
-package com.google.firebase.ahmad.candaanku;
+package com.google.firebase.ahmad.candaanku.fragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,6 +18,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.ahmad.candaanku.MainActivity;
+import com.google.firebase.ahmad.candaanku.R;
 import com.google.firebase.ahmad.candaanku.database.AsyncDBHelper;
 
 
@@ -102,7 +104,7 @@ public class OneFragment extends Fragment{
         Button addJokeButton = (Button) view.findViewById(R.id.buttonAddJoke);
         addJokeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceViewPager(5,0);
+                ((MainActivity)getActivity()).replaceViewPager(1,0);
 
             }
         });
@@ -285,6 +287,7 @@ public class OneFragment extends Fragment{
                     displayToastAndLeave(getString(R.string.showjoke_categoryempty));
             } else
                 displayToastAndLeave(getString(R.string.showjoke_retrievingerror));
+            //prefsJokes.close();
         } else
             displayToastAndLeave(getString(R.string.showjoke_nocategory));
     }

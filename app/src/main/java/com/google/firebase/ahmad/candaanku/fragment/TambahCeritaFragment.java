@@ -1,4 +1,4 @@
-package com.google.firebase.ahmad.candaanku;
+package com.google.firebase.ahmad.candaanku.fragment;
 
 import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
@@ -25,6 +25,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.ahmad.candaanku.MainActivity;
+import com.google.firebase.ahmad.candaanku.R;
 import com.google.firebase.ahmad.candaanku.database.AsyncDBHelper;
 
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class TambahCeritaFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.activity_addjoke, container, false);
+		view = inflater.inflate(R.layout.fragment_tambahcerita, container, false);
 
 		setHasOptionsMenu(true);
 		database = MainActivity.getAsyncDBHelper();
@@ -108,7 +110,7 @@ public class TambahCeritaFragment extends Fragment {
 		Button backButton = (Button) view.findViewById(R.id.addjoke_backButton);
 		backButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				((MainActivity)getActivity()).replaceViewPager(11,0);
+				((MainActivity)getActivity()).replaceViewPager(2,0);
 			}
 
 		});
@@ -122,7 +124,7 @@ public class TambahCeritaFragment extends Fragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.add(Menu.NONE, GOOGLE_SEARCH_ID, Menu.NONE, getString(R.string.addjoke_google));
-		getActivity().getMenuInflater().inflate(R.menu.activity_splash, menu);
+		getActivity().getMenuInflater().inflate(R.menu.action_menu, menu);
 	}
 
 	/**

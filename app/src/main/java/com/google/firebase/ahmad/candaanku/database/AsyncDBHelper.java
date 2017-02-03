@@ -34,7 +34,8 @@ public class AsyncDBHelper {
 	 *            The context.
 	 */
 	public AsyncDBHelper(Context context) {
-		database = new DBHelper(context);
+		database = DBHelper.getInstance(context);
+		//database = new DBHelper(context);
 		database.openDataBase();
 	}
 
@@ -99,7 +100,7 @@ public class AsyncDBHelper {
 	public boolean deleteTekateki(int id) {
 
 		try {
-			return new AsyncDeleteTekateki().execute(JOKE, String.valueOf(id)).get();
+			return new AsyncDeleteTekateki().execute(TEKATEKI, String.valueOf(id)).get();
 		} catch (InterruptedException e) {
 			Log.e(MainActivity.TAG, e.getClass() + " " + e.getMessage());
 		} catch (ExecutionException e) {

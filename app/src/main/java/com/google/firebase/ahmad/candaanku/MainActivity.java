@@ -34,6 +34,11 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.ahmad.candaanku.fragment.FourFragment;
+import com.google.firebase.ahmad.candaanku.fragment.OneFragment;
+import com.google.firebase.ahmad.candaanku.fragment.TambahCeritaFragment;
+import com.google.firebase.ahmad.candaanku.fragment.ThreeFragment;
+import com.google.firebase.ahmad.candaanku.fragment.TwoFragment;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -85,19 +90,18 @@ public class MainActivity extends AppCompatActivity implements /*/*GoogleRespons
     public FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    private static AsyncDBHelper asyncDBHelper;
     ViewPagerAdapter adapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main1);
-        //new LoadView(this).execute();
+        setContentView(R.layout.activity_main);
+
+         //new LoadView(this).execute();
 
         //Log.d("mainactivity1","sudah loaded");
 
-        asyncDBHelper = new AsyncDBHelper(this);
 
 
         //mGHelper = new GooglePlusSignInHelper(this, this);
@@ -253,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements /*/*GoogleRespons
 //
 
     public static AsyncDBHelper getAsyncDBHelper() {
-        return asyncDBHelper;
+        return SplashActivity.asyncDBHelper;
     }
 
     private void setupTabIcons() {
@@ -274,24 +278,16 @@ public class MainActivity extends AppCompatActivity implements /*/*GoogleRespons
         viewPager.setAdapter(adapter);
     }
 
-    public void replaceViewPager(Fragment frag, int pos) {
-        if (adapter!=null) {
-            adapter.replaceFrag(frag, pos);
-            adapter.notifyDataSetChanged();
-             Log.i("mainactiity1", "replaceViewPagerFragment = "+frag + "pos="+pos);
-        }
-    }
-
     public void replaceViewPager(int frag, int pos) {
         if (adapter!=null) {
             switch (frag) {
-//                case 1:
-//                    adapter.replaceFrag(new TambahKategoriFragment(), pos);
-//                    break;
-//                case 2:
-//                    adapter.replaceFrag(new PilihKategoriFragment(), pos);
-//                    break;
-//
+                case 1:
+                    adapter.replaceFrag(new TambahCeritaFragment(), pos);
+                    break;
+                case 2:
+                    adapter.replaceFrag(new OneFragment(), pos);
+                    break;
+
                 case 3:
                     adapter.replaceFrag(new ThreeFragment(), pos);
                     break;
@@ -359,19 +355,6 @@ public class MainActivity extends AppCompatActivity implements /*/*GoogleRespons
         }
     }
 
-    public void signedInOptionMenu(boolean signIn)
-    {
-        if (signIn) {
-            showOption(R.id.action_sign_out);
-            //hideOption(R.id.action_sign_in);
-        }
-        else {
-            //showOption(R.id.action_sign_in);
-            hideOption(R.id.action_sign_out);
-        }
-        justSigned = false;
-
-    }
     public void hideOption(int id)
     {
         MenuItem item = menu.findItem(id);

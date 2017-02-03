@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/mainBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/layoutAddJoke"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,9 +124,9 @@
                 android:id="@+id/buttonAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/buttonBackground"
+                android:background="@color/colorPrimary"
                 android:height="@dimen/main_buttonHeight"
-                android:text="@string/addjoke_add"
+                android:text="@string/addcat_add"
                 android:textColor="@color/buttonText"
                 android:width="@dimen/main_buttonWidth" />
         </TableRow>
@@ -138,7 +140,7 @@
             android:id="@+id/addjoke_backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/buttonBackground"
+            android:background="@color/colorPrimary"
             android:height="@dimen/main_buttonHeight"
             android:text="@string/goback"
             android:textColor="@color/buttonText"
@@ -146,7 +148,12 @@
             android:width="@dimen/main_buttonWidth" >
         </Button>
         </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/padding_large"/>
 
     </LinearLayout>
 
 </ScrollView>
+</FrameLayout>

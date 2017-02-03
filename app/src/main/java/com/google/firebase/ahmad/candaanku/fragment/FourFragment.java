@@ -1,4 +1,4 @@
-package com.google.firebase.ahmad.candaanku;
+package com.google.firebase.ahmad.candaanku.fragment;
 
 import android.content.Intent;
 import android.content.Context;
@@ -25,6 +25,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.ahmad.candaanku.Joke;
+import com.google.firebase.ahmad.candaanku.MainActivity;
+import com.google.firebase.ahmad.candaanku.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -64,7 +67,7 @@ public class FourFragment extends Fragment {
 
     ViewPager viewPager;
     public FourFragment() {
-        Log.d("mainactivity1", "FourFragment instantiated");
+        //Log.d("mainactivity1", "FourFragment instantiated");
 
         setHasOptionsMenu(true);    // Required empty public constructor
     }

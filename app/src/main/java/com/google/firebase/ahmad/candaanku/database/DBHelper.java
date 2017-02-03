@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.google.firebase.ahmad.candaanku.MainActivity;
+import com.google.firebase.ahmad.candaanku.SplashActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -80,6 +81,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	}
 
+	private static DBHelper mInstance = null;
+	public static DBHelper getInstance(Context ctx) {
+
+		// Use the application context, which will ensure that you
+		// don't accidentally leak an Activity's context.
+		// See this article for more information: http://bit.ly/6LRzfx
+		if (mInstance == null) {
+			mInstance = new DBHelper(ctx.getApplicationContext());
+		}
+		return mInstance;
+	}
+
 	public void CopyDataBaseFromAsset() throws IOException {
 		InputStream myInput = myContext.getAssets().open(DATABASE_NAME);
 // Path to the just created empty db
@@ -110,6 +123,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public SQLiteDatabase openDataBase() throws SQLException {
 		File dbFile = myContext.getDatabasePath(DATABASE_NAME);
 		if (!dbFile.exists()) {
+			SplashActivity.copyDatabase = true;
 			try {
 				CopyDataBaseFromAsset();
 				System.out.println("Copying sucess from Assets folder");

@@ -1,4 +1,4 @@
-package com.google.firebase.ahmad.candaanku;
+package com.google.firebase.ahmad.candaanku.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.ahmad.candaanku.MainActivity;
+import com.google.firebase.ahmad.candaanku.R;
 import com.google.firebase.ahmad.candaanku.database.AsyncDBHelper;
 
 import java.util.ArrayList;

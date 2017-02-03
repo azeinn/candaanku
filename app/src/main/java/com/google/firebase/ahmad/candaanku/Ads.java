@@ -15,6 +15,7 @@ public class Ads {
     public static void showBanner(final Activity activity){
 
         final AdView banner = (AdView) activity.findViewById(R.id.banner);
+        //AdRequest adRequest = new AdRequest.Builder().build();
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("6408FBBA5336154A4136C933270E7283").build();
         banner.loadAd(adRequest);
 

@@ -1,4 +1,4 @@
-package com.google.firebase.ahmad.candaanku;
+package com.google.firebase.ahmad.candaanku.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.ahmad.candaanku.MainActivity;
+import com.google.firebase.ahmad.candaanku.R;
+
 public class ThreeFragment extends Fragment implements View.OnClickListener/*, GoogleAuthResponse*/ {
 
     private static final String TAG = "ThreeFragment";
@@ -30,7 +33,7 @@ public class ThreeFragment extends Fragment implements View.OnClickListener/*, G
     // [END declare_auth_listener]
 
     public ThreeFragment() {
-        Log.d("mainactivity1", "ThreeFragment instantiated");
+        //Log.d("mainactivity1", "ThreeFragment instantiated");
         // Required empty public constructor
     }
 
