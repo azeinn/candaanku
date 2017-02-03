@@ -21,14 +21,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.github.kt3k.coveralls'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'madkeystorealias'
-            keyPassword 'and0ra'
-            storeFile file('C:/Users/FUJITSU/madkeystore.jks')
-            storePassword 'and0ra'
-        }
-    }
+ 
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
